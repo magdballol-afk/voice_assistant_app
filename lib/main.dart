@@ -1,41 +1,62 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(const AccessibilityApp());
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  // This widget is the root of your application.
+class AccessibilityApp extends StatelessWidget {
+  const AccessibilityApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
+      title: 'المساعد الصوتي',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomeScreen(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});  
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
+        title: const Text('المساعد الصوتي للأدوية'),
+        centerTitle: true,
       ),
       body: Center(
-        child: Text(
-          'Hello, World!',
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.mic,
+              size: 100,
+              color: Colors.deepPurple,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'اضغط أو تحدث لإصدار أمر',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
+            ElevatedButton.icon(
+              onPressed: () {
+                // سيتم إضافة منطق الاستماع هنا
+              },
+              icon: const Icon(Icons.mic_none, size: 30),
+              label: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Text('بدء التحدث', style: TextStyle(fontSize: 18)),
+              ),
+            ),
+          ],
         ),
       ),
     );
