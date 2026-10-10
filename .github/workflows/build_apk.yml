@@ -1,40 +1,49 @@
 name: Build Android APK
+
 on:
   push:
-    branches:
-      - main
+    branches: [ "master", "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "master", "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. جلب الكود من المستودع
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Java Development Kit (JDK)
+      # 2. إعداد بيئة Java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Flutter SDK
+      # 3. إعداد بيئة Flutter
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.x'
+          flutter-version: '3.22.x'
           channel: 'stable'
+          cache: true
 
+      # 4. تثبيت الحزم والمكتبات
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --split-per-abi
+      # 5. بناء ملف الـ APK وتشفير الكود
+      - name: Build Protected APK
+        run: |
+          flutter build apk --release \
+            --obfuscate \
+            --split-debug-info=build/app/outputs/symbols
 
-      - name: Upload Universal APK
+      # 6. رفع ملف الـ APK المحمي
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: voice-assistant-app-release
+          name: release-apk-protected
           path: build/app/outputs/flutter-apk/app-release.apk
