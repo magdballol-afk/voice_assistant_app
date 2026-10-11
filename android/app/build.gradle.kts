@@ -22,7 +22,7 @@ android {
         applicationId = "com.example.voice_assistant_app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode.toInteger()
+        versionCode = flutter.versionCode.toInt()
         versionName = flutter.versionName
     }
 
